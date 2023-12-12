@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { DbzService } from '../services/dbz.service';
 import { Charecter } from '../interfaces/charecter.interface';
 
 @Component({
@@ -9,31 +10,19 @@ import { Charecter } from '../interfaces/charecter.interface';
 
 export class MainPageComponent  {
 
-public personajes : Charecter[] =[
-  {
-    name: 'Krillin',
-    power: 1000
-  },
-  {
-    name: 'Gokú',
-    power: 9500
-  },
-  {
-    name: 'Vegeta',
-    power: 7500
-  }
-];
+constructor( private dbzService : DbzService ){ }
 
-//main-page.component.ts
-onNuevoPersonaje(personaje: Charecter):void{
-  this.personajes.push(personaje );
+
+get personajes():  Charecter[]{
+  return this.dbzService.personajes;
 }
 
-ondeletePersonaje(index: number):void{
-  //debugger;
-  const arr1 = this.personajes.splice(index,1);
-  // const arr2 = this.personajes.splice(index+1);
-  console.log(`INDICE RECIBIDO ES: ${index}`);
-  //this.personajes=[...arr1, ...arr2];
+ondeletePersonaje(id : string) : void {
+  this.dbzService.ondeletePersonajeById(id);
 }
+
+onNewPersonaje(personaje : Charecter) : void {
+  this.dbzService.onNuevoPersonaje(personaje);
+}
+
 }
